@@ -1,0 +1,204 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+    <button routerLink='/searchLoan' mat-raised-button fxFlex="4" class="btn-style-1" style="align-self: flex-end;margin-right: 30px;margin-top: 15px;">View
+        List</button>
+    <div class="content p-24">
+        <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <mat-card>
+                <mat-card-title style='margin-top: -15px;'>New Loan</mat-card-title>
+
+                <mat-card-content>
+                    <form class="p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="newLoanForm">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="100%" class="pr-4">
+                                <mat-label>Customer </mat-label>
+                                <input type="text" placeholder="Customer" name="" formControlName="customer" matInput [matAutocomplete]="customerauto">
+                                <mat-icon matSuffix>face</mat-icon>
+
+                                <mat-autocomplete autoActiveFirstOption #customerauto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-option *ngFor="let customer of filteredCustomers | async" [value]="customer">
+                                        {{customer.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                <button type="button" mat-stroked-button class='addCustomerButton' (click)="openCustomerDialog()" fxFlex='100'>Add
+                                    <mat-icon matSuffix>add_box</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+
+                            <mat-form-field appearance="outline" fxFlex="row" fxFlex="50%" class="pr-4">
+                                <mat-label>Referring Organization</mat-label>
+                                <input type="text" placeholder="Organization" name="" formControlName="organization" matInput [matAutocomplete]="orgauto">
+                                <mat-icon matSuffix class="secondary-text">work_outline</mat-icon>
+                                <mat-autocomplete autoActiveFirstOption #orgauto="matAutocomplete" [displayWith]="organizationdDisplayFn">
+                                    <mat-option *ngFor="let organization of filteredOrganizations | async" [value]="organization">
+                                        {{organization.orginizationName}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error> Referring Organization is required!</mat-error>
+                            </mat-form-field>
+
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                <button type="button" mat-stroked-button class='addCustomerButton' (click)="openOrganizationDialog()" fxFlex='100'>Add
+                                    <mat-icon matSuffix>add_box</mat-icon>
+                                </button>
+                            </div>
+
+                            <mat-form-field appearance="outline" fxFlex="row" fxFlex="50%" class="pr-4">
+                                <mat-label>Sales Person</mat-label>
+                                <input type="text" placeholder="Sales Person" name="" formControlName="salesPerson" matInput [matAutocomplete]="salesauto">
+                                <mat-icon matSuffix class="secondary-text">supervised_user_circle</mat-icon>
+                                <mat-autocomplete autoActiveFirstOption #salesauto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-option *ngFor="let salesPerson of filteredSalesPersons | async" [value]="salesPerson">
+                                        {{salesPerson.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+
+                                <mat-error> Sales Person is required!</mat-error>
+                            </mat-form-field>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                <button type="button" mat-stroked-button class='addCustomerButton' (click)="openSalesPersonDialog()" fxFlex='100'>Add
+                                    <mat-icon matSuffix>add_box</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="row" fxFlex="50%" class="pr-4">
+                                <mat-label>Invoice Number</mat-label>
+                                <input type='number' formControlName="invoiceNumber" matInput name="" id="" placeholder="Invoice Number" required>
+                                <mat-icon matSuffix>receipt</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="row" fxFlex="50%" class="pr-4">
+                                <mat-label>Invoice Date</mat-label>
+                                <!-- <input type='date' matInput name="" id="" formControlName="invoiceDate" placeholder="Invoice Date" required> -->
+                                <input matInput [(ngModel)]="loanDate" [max]='today' ngModel [ngModelOptions]="{standalone: true}" [matDatepicker]="picker" placeholder="Choose a date" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+
+
+                                <!-- <mat-icon matSuffix>date_range</mat-icon> -->
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Notes</mat-label>
+                                <textarea matInput name="" id="" formControlName="notes" placeholder="Notes" required></textarea>
+                                <mat-icon matSuffix>assignment</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <form [formGroup]="loanProductForm">
+                            <table style="overflow-x: auto;display: inline-block; white-space: nowrap;">
+                                <thead>
+                                    <tr class='tableHeader'>
+                                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                            <td fxFlex="14" class="pr-4">Name</td>
+                                            <td fxFlex="14" class="pr-4">Price</td>
+                                            <td fxFlex="14" class="pr-4">Loan Term</td>
+                                            <td fxFlex="14" class="pr-4">Quantity</td>
+                                            <td fxFlex="14" class="pr-4">Deposit</td>
+                                            <td fxFlex="14" class="pr-4">Total</td>
+                                            <td fxFlex="14" class="pr-4">Action</td>
+                                        </div>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr formArrayName="products" *ngFor="let product of loanProductForm.get('products').controls; let i = index">
+                                        <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                            <td fxFlex="14">
+                                                <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                                    <mat-label>Product </mat-label>
+
+                                                    <input type="text" placeholder="Product" name="" formControlName="product" matInput [matAutocomplete]="productauto">
+
+                                                    <mat-autocomplete autoActiveFirstOption (selectioChange)="onChangedProduct($event, i)" (option)="onChangedProduct($event, i)" [id]="'product.productId' + i" #productauto="matAutocomplete" [displayWith]="displayFn">
+                                                        <mat-option *ngFor="let product of filteredProducts[i] | async" [value]="product">
+                                                            {{product.name}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+
+                                                    <!-- <mat-select formControlName="productId" (selectionChange)="onChangedProduct($event, i)" [id]="'productId' + i" required>
+                                                        <mat-option *ngFor="let product of productList" [value]="product.productId">
+                                                            {{product.name}}
+                                                        </mat-option>
+                                                    </mat-select> -->
+
+                                                </mat-form-field>
+                                            </td>
+                                            <td fxFlex="14">
+                                                <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                                    <mat-label>Price </mat-label>
+                                                    <input type='number' (keyup)="onPriceChange($event)" matInput formControlName="price" [id]="'price' + i" name="" placeholder="Price" required>
+                                                </mat-form-field>
+                                            </td>
+                                            <td fxFlex="14">
+                                                <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                                    <mat-label>Loan Term </mat-label>
+                                                    <mat-select formControlName="loanTermId" [id]="'loanTermId' + i" required>
+                                                        <mat-option *ngFor="let loanTerm of loanTermList" [value]="loanTerm.loanTermId">
+                                                            {{loanTerm.numberOfMonths}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                            <td fxFlex="14">
+                                                <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                                    <mat-label>Quantity </mat-label>
+                                                    <input type='number' min="1" formControlName="quantity" [id]="'quantity' + i" matInput name="" id="" placeholder="Quantity" required>
+
+                                                </mat-form-field>
+                                            </td>
+                                            <td fxFlex="14">
+                                                <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                                    <mat-label>Deposit </mat-label>
+                                                    <input type='number' min="1" formControlName="deposit" [id]="'deposit' + i" matInput name="" id="" placeholder="Deposit" required>
+                                                </mat-form-field>
+                                            </td>
+                                            <td fxFlex="14">
+                                                <div fxFlex="100" class="pr-4">
+                                                    <mat-label>KES:&nbsp;&nbsp;</mat-label>
+                                                    <input [disabled]="true" formControlName="total" [id]="'total' + i" matInput name="total" class='total' id="" placeholder="Total" style="color:black; font-weight:bold; width: unset;" required>
+                                                </div>
+                                            </td>
+                                            <td fxFlex="14">
+                                                <div fxFlex="100" class="pr-4">
+                                                    <!-- <button class='deleteButton' mat-stroked-button style="color:red" > -->
+                                                    <span class='deleteButton' (click)='deleteProduct(i)'>
+                                                        <mat-icon>delete</mat-icon>
+                                                    </span>
+                                                    <!-- </button> -->
+                                                </div>
+                                            </td>
+
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <td fxFlex="10">
+                                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                                <button type="button" mat-stroked-button class='addBtn btn-style-2' fxFlex='100' (click)='addProductButtonClick()'>Add
+                                                    <mat-icon>add_box</mat-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <button mat-raised-button fxFlex="15" [disabled]="dataSending" id='submitButton' class="btn-style-1" style="align-self: flex-end;margin-right: 30px;margin-top: 15px;" (click)="addNewLoan()">
+                            <img *ngIf="dataSending" style="width : 24px"
+                                src="../../../../../assets//images/spinner.gif" />&nbsp;Save</button>
+                    </form>
+                </mat-card-content>
+
+
+            </mat-card>
+        </div>
+    </div>
+</div>

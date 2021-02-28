@@ -1,0 +1,104 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+    <button *ngIf="!dialogView" routerLink='/searchorganization' mat-raised-button fxFlex="4" class="btn-style-1" style="align-self: flex-end;margin-right: 30px;margin-top: 15px;">View
+        List</button>
+    <div class="content p-24">
+        <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <mat-card *ngIf="ready">
+
+                <mat-card-title *ngIf="!organizadionId" style='margin-top: -15px;'>New Organization</mat-card-title>
+                <mat-card-title *ngIf="organizadionId" style='margin-top: -15px;'>Update Organization </mat-card-title>
+
+                <mat-card-content>
+                    <form class="p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="newOrganizationForm">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="orginizationName" required>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-error> Name of organization is required!</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>County</mat-label>
+                                <mat-select formControlName="countyId">
+                                    <mat-option *ngFor='let county of counties' [value]="county.countyId">
+                                        {{county.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Sub County</mat-label>
+                                <mat-select formControlName="subCountyId">
+                                    <mat-option *ngFor='let subCounty of subCounties' [value]="subCounty.subCountyId">
+                                        {{subCounty.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+
+
+                        <fieldset>
+                            <legend>Head of organization</legend>
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                                <mat-form-field appearance="outline" fxFlex="34" class="pr-4">
+                                    <mat-label>Name</mat-label>
+                                    <input type='text' formControlName="contactPersonName" matInput name="" id="" placeholder="Name">
+                                    <mat-icon matSuffix>account_box</mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" fxFlex="33" class="pr-4">
+                                    <mat-label>National ID</mat-label>
+                                    <input type='text' formControlName="contactPersonUniqueId" matInput name="" id="" placeholder="National ID">
+                                    <mat-icon matSuffix>card_membership</mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" fxFlex="33" class="pr-4">
+                                    <mat-label>Gender</mat-label>
+                                    <mat-select formControlName="contactPersonGender">
+                                        <mat-option [value]="1">
+                                            Male
+                                        </mat-option>
+                                        <mat-option [value]="2">
+                                            Female
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+
+
+                            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                                <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                    <mat-label>Phone</mat-label>
+                                    <input type='text' formControlName="contactPersonPhone" matInput name="" id="" placeholder="Phone">
+                                    <mat-icon matSuffix>phone</mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                    <mat-label>Email</mat-label>
+                                    <input type='email' formControlName="contactPersonEmail" matInput name="" id="" placeholder="Email">
+                                    <mat-icon matSuffix>email</mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                        </fieldset>
+
+                        <button *ngIf="!organizadionId" [disabled]="dataSending" id='submitButton' mat-raised-button fxFlex="15" class='btn-style-1' style="align-self: flex-end;" (click)='addOrganization(newOrganizationForm.value)'><img *ngIf="dataSending" style="width : 24px"
+                            src="../../../../../assets//images/spinner.gif" />&nbsp;Submit
+                        </button>
+                        <button *ngIf="organizadionId" [disabled]="dataSending" id='submitButton' mat-raised-button fxFlex="15" class='btn-style-1' style="align-self: flex-end;" (click)='updateOrganization(newOrganizationForm.value)'><img *ngIf="dataSending" style="width : 24px"
+                            src="../../../../../assets//images/spinner4.gif" />&nbsp;Update
+                        </button>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

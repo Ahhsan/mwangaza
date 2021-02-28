@@ -1,0 +1,66 @@
+<div class='center'>
+    <img src='../../../../assets/images/logos/fuse.svg' alt='logo'>
+    <form (ngSubmit)="loginUser()" class=' login-form '>
+
+
+        <!-- <p>
+            <mat-form-field appearance="outline" fxFlex="100">
+                <mat-label>Email</mat-label>
+                <input matInput name="" id="" placeholder="Email">
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+        </p> -->
+        <p>
+            <mat-form-field fxFlex="100">
+                <input type="text" [(ngModel)]='user.email' matInput placeholder="Email" name='email '>
+                <mat-icon matSuffix style="margin-right: 20px;">email</mat-icon>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field fxFlex="100">
+                <input type="password" [(ngModel)]='user.password' matInput placeholder="Password" name='password'>
+                <mat-icon matSuffix style="margin-right: 20px;">vpn_key</mat-icon>
+            </mat-form-field>
+        </p>
+
+        <div class="button">
+            <button type='submit' class='deleteButton' [disabled]="dataSending" mat-raised-button style='font-size: 20px; '><img
+                *ngIf="dataSending" style="width : 24px"
+                src="../../../../../assets//images/spinner.gif" />Login</button>
+
+        </div>
+    </form>
+</div>
+
+
+<!-- <mat-grid-list rowHeight='200px ' cols="6" class='bgImg ' gutterSize='0px '>
+    <mat-grid-tile colspan="6" class='hidden '></mat-grid-tile>
+    <mat-grid-tile rowspan="2" class='hidden '>Another column</mat-grid-tile>
+    <mat-grid-tile rowspan="2" colspan="2" class='left-tile '>
+        <mat-card class='full login-form '>
+            <mat-card-content>
+                <form (ngSubmit)="loginUser()">
+                    <p>
+                        <mat-form-field>
+                            <input type="text" [(ngModel)]='email ' matInput placeholder="Email" name='email '>
+                        </mat-form-field>
+                    </p>
+
+                    <p>
+                        <mat-form-field>
+                            <input type="password" [(ngModel)]='password ' matInput placeholder="Password" name='password '>
+                        </mat-form-field>
+                    </p>
+                    <div class="button">
+                        <button type='submit ' mat-raised-button>Login</button>
+                    </div>
+
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="2" colspan="2" class='right-tile '>
+        <img src="../../../../assets/images/logos/fuse.svg">
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="2" class='hidden '>Another column</mat-grid-tile>
+</mat-grid-list> -->

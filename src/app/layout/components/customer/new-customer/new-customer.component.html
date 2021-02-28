@@ -1,0 +1,166 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+    <button *ngIf="!dialogView" routerLink='/searchcustomer' mat-raised-button fxFlex="15" class="btn-style-1" style="align-self: flex-end;margin-right: 30px;margin-top: 15px; max-height: 37.88px !important;">View
+        List</button>
+    <div (load)="onPageLoad()" class="content p-24">
+        <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <mat-card *ngIf='ready'>
+                <mat-card-title *ngIf="!customerId" style='margin-top: -15px;'>New Customer</mat-card-title>
+                <mat-card-title *ngIf="customerId" style='margin-top: -15px;'>Update Customer</mat-card-title>
+
+                <mat-card-content>
+                    <form class="p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="newCustomerForm">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>National ID</mat-label>
+                                <input matInput formControlName="nationalId">
+                                <mat-icon matSuffix>domain</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="name" required>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-error> Name is required!</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Gender</mat-label>
+                                <mat-select formControlName="gender">
+                                    <mat-option [value]="1">
+                                        Male
+                                    </mat-option>
+                                    <mat-option [value]="2">
+                                        Female
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Address</mat-label>
+                                <input type='text' matInput name="" id="" formControlName="address" placeholder="Address" required>
+                                <mat-icon matSuffix>home</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Phone 1</mat-label>
+                                <input type='string' matInput name="" id="" formControlName="phone1" placeholder="Phone 1">
+                                <mat-icon matSuffix>phone</mat-icon>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Phone 2</mat-label>
+                                <input type='string' matInput name="" id="" formControlName="phone2" placeholder="Phone 2">
+                                <mat-icon matSuffix>phone</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Name of Bishop</mat-label>
+                                <input matInput formControlName="bishopName" required>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-error> Name of Bishop is required!</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <input type='string' matInput name="" id="" formControlName="bishopPhone" placeholder="Phone of Bishop">
+                                <mat-icon matSuffix>phone</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>County</mat-label>
+                                <input type="text" placeholder="County" name="" formControlName="county" matInput [matAutocomplete]="auto">
+
+                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-option *ngFor="let county of filteredCounties | async" [value]="county">
+                                        {{county.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Sub County</mat-label>
+                                <mat-select formControlName="subCountyId">
+                                    <mat-option *ngFor="let subCounty of subCounties" [value]="subCounty.subCountyId">
+                                        {{subCounty.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <!-- <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Physical Address</mat-label>
+                                <textarea matInput formControlName="address" required>
+                                </textarea>
+                                <mat-error>Address is required!</mat-error>
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Additional Information </mat-label>
+                                <textarea matInput formControlName="additionalInfo"></textarea>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Defaulting Record</mat-label>
+                                <mat-select formControlName="defaultingRecord">
+                                    <mat-option>
+                                        Record 1
+                                    </mat-option>
+                                    <mat-option>
+                                        Record 2
+                                    </mat-option>
+                                    <mat-option>
+                                        Record 3
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Input 1</mat-label>
+                                <input matInput formControlName="input1">
+                                <mat-icon matSuffix class="secondary-text">comment</mat-icon>
+                                <mat-error> Input 1 is required!</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Input 2</mat-label>
+                                <input matInput formControlName="input2">
+                                <mat-icon matSuffix class="secondary-text">comment</mat-icon>
+                                <mat-error> Input 1 is required!</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <button [disabled]="dataSending" *ngIf="!customerId" id='submitButton' mat-raised-button fxFlex="15" class='btn-style-1' (click)='addCustomer(newCustomerForm.value)' style="align-self: flex-end;"><img *ngIf="dataSending" style="width : 24px"
+                                src="../../../../../assets//images/spinner.gif" />&nbsp; Submit
+                        </button>
+                        <button [disabled]="dataSending" *ngIf="customerId" id='submitButton' mat-raised-button fxFlex="15" class='btn-style-1' style="align-self: flex-end;" (click)='updateCustomer(newCustomerForm.value)'><img *ngIf="dataSending"
+                                style="width : 24px" src="../../../../../assets//images/spinner.gif" />&nbsp; Update
+                        </button>
+                        <table *ngIf="updatePerson">
+                            <thead>
+                                <tr class='tableHeader'>
+                                    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                                        <td fxFlex="40">Name of loan product</td>
+                                        <td fxFlex="60">Defaulted duration</td>
+                                    </div>
+                                </tr>
+                            </thead>
+                        </table>
+                    </form>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

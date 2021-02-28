@@ -1,0 +1,54 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+    <button routerLink='/searchpoduct' mat-raised-button fxFlex="4" class="btn-style-1" style="align-self: flex-end;margin-right: 30px;margin-top: 15px;">View
+        List</button>
+    <div class="content p-24">
+        <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <mat-card *ngIf="ready">
+
+                <mat-card-title *ngIf="!productId" style='margin-top: -15px;'>New Product</mat-card-title>
+                <mat-card-title *ngIf="productId" style='margin-top: -15px;'>Update Product</mat-card-title>
+
+                <mat-card-content>
+                    <form class="p-24 mr-24" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto" name="form" [formGroup]="newProductForm">
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                            <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                                <mat-label>Name</mat-label>
+                                <input matInput required formControlName="name">
+                                <mat-error> Name of product is required!</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Recommended Retail price</mat-label>
+                                <input matInput required formControlName="recomendedRetailPrice">
+                                <mat-error> Retail price is required!</mat-error>
+                            </mat-form-field>
+
+
+                            <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
+                                <mat-label>Recommended Loan Term</mat-label>
+                                <mat-select required formControlName="loanTermId">
+                                    <mat-option *ngFor="let term of loanTerms" [value]="term.loanTermId">
+                                        {{term.numberOfMonths}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <button *ngIf="!productId" [disabled]="dataSending" id='submitButton' mat-raised-button fxFlex="15" class='btn-style-1' style="align-self: flex-end;" (click)="addProduct(newProductForm.value)"><img
+                                *ngIf="dataSending" style="width : 24px"
+                                src="../../../../../assets//images/spinner.gif" /> Submit
+                        </button>
+                        <button *ngIf="productId" [disabled]="dataSending" id='submitButton' mat-raised-button fxFlex="15" class='btn-style-1' style="align-self: flex-end;" (click)="updateExistingProduct(newProductForm.value)"><img
+                                *ngIf="dataSending" style="width : 24px"
+                                src="../../../../../assets//images/spinner.gif" /> Update
+                        </button>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

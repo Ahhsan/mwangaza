@@ -1,0 +1,97 @@
+<div class="mainContainer">
+    <mat-card style="box-shadow:unset !important; background: unset !important">
+        <mat-card-title style="margin-top: 3%;">
+            Make Payments
+        </mat-card-title>
+        <mat-card-content>
+            <table *ngIf="loan">
+                <tr>
+                    <td *ngIf='customer'>
+                        <b>Customer:</b> {{customer.name}}
+                    </td>
+                    <td>
+                        <b>Loan ID:</b> {{loan.loanId}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Invoice #:</b> {{loan.invoiceNumber}}
+                    </td>
+                    <td>
+                        <b>Invoice Date:</b> {{loan.invoiceDate | date:'longDate'}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Referring Organization:</b> {{loan.orginization.orginizationName}}
+                    </td>
+                    <td>
+                        <b>Sales Person:</b> {{loan.salePerson.name}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Notes:</b> {{loan.notes}}
+                    </td>
+                </tr>
+            </table>
+            <div *ngIf="loan">
+                <div *ngFor="let loanProduct of loan.loanProducts">
+                    <h4 style="margin-left:1%; margin-right: 2%;">Product <b>{{loanProduct.product.name}}</b> &nbsp; &nbsp; Loan Amount: {{loanProduct.total | currency:'KES '}} &nbsp; &nbsp; Loan Term: {{loanProduct.loanTerm.numberOfMonths}} &nbsp;&nbsp; Quantity: {{loanProduct.quantity}} &nbsp;&nbsp;
+                        Deposit: {{loanProduct.deposit | currency:'KES '}} &nbsp;&nbsp; Sold For: {{loanProduct.total + loanProduct.deposit | currency:'KES '}}
+
+                    </h4>
+                    <!-- <button class='paymentButton'>Make Payment</button> -->
+                    <button class='editButton' style="margin: 0 0 1% 1%;background-color: #2D4431; color: white" (click)="openDialog(loanProduct)" mat-raised-button>Make Payment</button>
+
+                    <!-- <p>Total: {{loanProduct.total}} &nbsp; &nbsp; Loan Term: {{loanProduct.loanTerm.numberOfMonths}} &nbsp;&nbsp; Quantity: {{loanProduct.quantity}} &nbsp;&nbsp; Deposit: {{loanProduct.deposit}}
+                    </p> -->
+                    <table>
+                        <thead class="loanProductsHeader">
+                            <tr>
+                                <td>Installment Month</td>
+                                <td>Due Date</td>
+                                <td>Installment Amount</td>
+                                <td>Amount Received</td>
+                                <td>Payment Date</td>
+                                <td>Mpesa Code</td>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let loanInstallments of loanProduct.loanPayments | orderBy: 'dueDate'; index as i ">
+                            <tr style="max-height:22px;">
+                                <td>
+                                    {{loanInstallments.dueDate | date:'MMMM yyyy'}}
+                                </td>
+                                <td>
+                                    {{loanInstallments.dueDate | date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    {{loanInstallments.installmentAmount | currency:'KES '}}
+                                    <!-- <span *ngIf="(moment().month()+1 >= moment(loanInstallments.dueDate).month()+1) && (moment().year() >= moment(loanInstallments.dueDate).year())">
+                                        <button *ngIf="loanInstallments.amountReceived > 0" class='editButton'
+                                            style="background-color: #2D4431; color: white"
+                                            mat-raised-button>PAID</button>
+                                        <input type="text" [(ngModel)]="amountEntry"
+                                            *ngIf="!(loanInstallments.amountReceived > 0)" mat-input
+                                            placeholder="Enter amount">
+                                        <button (click)="makePayment(loanInstallments)"
+                                            *ngIf="!(loanInstallments.amountReceived > 0)" class='editButton'
+                                            style="background-color: #2D4431; color: white" mat-raised-button>Make
+                                            Payment</button>
+                                    </span> -->
+                                </td>
+                                <td> {{loanInstallments.amountReceived| currency:'KES '}}
+                                </td>
+                                <td> {{loanInstallments.dateReceived | date:'dd/MM/yyyy'}}
+                                </td>
+                                <td>
+                                    {{loanInstallments.receiptNumber}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

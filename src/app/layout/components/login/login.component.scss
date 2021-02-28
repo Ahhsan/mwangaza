@@ -1,0 +1,98 @@
+// mat-card {
+//     width: 50%;
+//     margin-left: 25%;
+//     height: 50%;
+//     border-radius: 1em;
+//     margin-top: 5%;
+//     // padding-right: .5em;
+//     border-style: solid;
+//     border-color: darkgray;
+// }
+// .example-full-width {
+//     width: 100%;
+// }
+:host {
+    width: 100%;
+}
+
+.center {
+    // background: #bdc3c7;
+    // background: linear-gradient(to left, #4c9c86, #1f4037);
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.login-form {
+    // min-height: 60%;
+    min-width: 250px;
+    width: 20%;
+}
+
+input {
+    font-size: larger;
+}
+
+mat-form-field {
+    background: white;
+    padding: 0px 0px 0px 10px;
+    width: 100%;
+    // border: 1.5px solid black;
+    border-radius: 10px;
+}
+
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
+
+mat-grid-list {
+    position: unset;
+    z-index: 1;
+}
+
+mat-grid-tile {
+    // background: #778678;
+    background-color: lightblue;
+}
+
+.hidden {
+    display: none;
+}
+
+.full {
+    height: 100%;
+    width: 100%;
+    border-radius: unset;
+}
+
+.bgImg {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    // opacity: .5;
+    // z-index: -1;
+    background-repeat: no-repeat;
+}
+
+.right-tile {
+    border-radius: 0px 20px 20px 0px;
+}
+
+.left-tile {
+    border-radius: 20px 0px 0px 20px;
+}
+
+.login-form .button button {
+    width: 100%;
+    background: #27803f;
+    color: white;
+    height: 40;
+}
+
+.deleteButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
